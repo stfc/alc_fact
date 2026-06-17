@@ -1,0 +1,53 @@
+## Template for the SETTINGS file 
+## NOTE: the order of the directives is irrelevant.
+## For specific examples refer to the sub-folders within "examples" located in the root directory
+
+## Specification about the input data
+what_to_fit          # String.  Options: ocf, tcf, spcf, msd
+reactive_species     # Logical. Only needed if "what_to_fit" is ocf. This is to indicate if the
+                     #          provided OCF corresponds to the data from a reactive species or not.
+species_name         # String.  This is a string needed to label the species
+filename             # String.  Name of the file that contains the data.
+
+&msd                 # IMPORTANT: This block is ONLY needed if "what_to_fit" is set to MSD
+  select xy          # String. Set of coordinates used to generate the MSD. Options: "x", "y", "z", "xy", "xz", "yz" or "xyz" 
+  units Angstrom^2   # Units
+&end_msd
+
+### Settings to instruct how data will be fitted
+fitting_function     # String.  Specification with the functional form to fit. Options: "1exp_to_zero", "1exp_to_constant",
+                     #          "2exp_to_zero", "2exp_to_constant" or "linear"
+max_iterations       # Integer. Number of maximum iterations for fitting
+
+max_times_std        # Real.    Maximum times of departures from the average (taking the STD values) 
+
+std_samples          # Integer. Number of departures from the average values (AVG), starting from AVG-(max_times_std)*STD 
+                     #          and generating profiles up to AVG+(max_times_std)*STD, including the AVG values. 
+                     #          By default, the set of raw data is printed to the RAW_DATA file. If this value is 1, 
+                     #          only AVG is fitted (max_times_std is ignored)
+                                     
+time_column_number   # Positive integer. Input file column number that reports time 
+avg_column_number    # Positive integer. Input file column number that reports average values  
+std_column_number    # Positive integer. Input file column number that reports STD values. Neglected if std_samples=1.
+
+start_time           # Real & units (ps or fs). Lower time bound for fitting. 
+                     #                          If not defined, the lowest recorded time is considered.
+end_time             # Real & units (ps or fs). Upper time bound for fitting.onsidered. 
+                     #                          If not defined, the largest recorded time is considered   
+
+## Optional
+###########
+print_average_ssr    # Logical. Directive to check the average SSR/NDF (See generated OUTPUT file)
+
+#&input_parameters  # Block to unitialise parameters for those cases the fittings do not converge. 
+  #A1               # The Ai and Ti (i=1,2,3) to be defined depend on the choice of "fitting_function"
+  #A2
+  #A3
+  #T1
+  #T2
+  #T3
+#&end_input_parameters
+
+fit_superfast_time  # Logical. Fotting the OCF response at very short times. 
+plot_RAW_data       # Logical. Printing of the raw data that is fitted (RAW_DATA file, True by default)
+plot_fittings       # Logical. Printing of fittings, which in turn prints the FITTED_DATA file (.True. by default)

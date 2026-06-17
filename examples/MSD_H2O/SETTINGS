@@ -1,0 +1,44 @@
+## Example to fit a Mean Square Displacement (MSD) of a non-rective species (water)
+## NOTE: the order of the directives is irrelevant.
+## Specification about the input data
+what_to_fit        msd         # The input data corresponds to a MSD of water
+reactive_species  .False.      # Definition of MSD requires setting that the involved species are necessarily non-reactive.
+species_name       H2O         # This is a string needed to label the species (water in this case)
+filename           MSD_data    # Name of the file that contains the data
+
+### Settings to instruct how data will be fitted
+fitting_function  linear       # This instructs the code to linear function. See notes for other possible options.
+max_iterations 100             # Number of maximum iterations for fitting
+
+
+time_column_number  1          # Column number of the input file that reports time 
+avg_column_number   2          # Column number of the input file that reports average values  
+std_column_number   3          # Column number of the input file that reports STD values. If std_samples is equal to 1, this directive is neglected
+
+&msd                           # This block is compulsory for MSD fittings
+  select xy                    # The set of coordinates used to generate the MSD
+  units Angstrom^2             # Units
+&end_msd
+
+start_time  1.000 ps           # Data above 1.0 ps is considered. This must be decided based on the input data
+end_time    20.00 ps           # Data above 20.0 ps is considered. If not defined, the largest recorded time is considered   
+ 
+std_samples  11                # Number of departures from the average values (AVG), starting from AVG-(max_times_std)*STD 
+                               # and generating 11 profiles up to AVG+(max_times_std)*STD, including the AVG values. 
+                               # By default, the set of raw data is printed to the RAW_DATA file. If this value is 1, only AVG is fitted 
+                               # (max_times_std is ignored)
+                                     
+max_times_std  1.0             # Maximum times the STD values (see above)
+
+# Optional
+##########
+print_average_ssr  .True.           # Optional directive to check the average SSR/NDF (See generated OUTPUT file)
+
+#&input_parameters                   # The software was designed to define robust initial parameters for fitting based on the option of "#what_to_fit" and
+# A0 -0.2                            # "fitting_function". Nevertheless, for cases where fittings fail to converge, the user can initialise the parameters. 
+# A1  2.0                            # Depending on the option for "fitting_function" extra parameters need to be defined.
+#&end_input_parameters
+
+plot_RAW_data     .True.            # Set to .False. to turn off the printing of the RAW_DATA file    (.True. by default)
+plot_fittings     .True.            # Set to .False. to turn off the printing of the FITTED_DATA file (.True. by default)
+

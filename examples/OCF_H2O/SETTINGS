@@ -1,0 +1,43 @@
+## Example to fit a Orientational Correlation Function (OCF) of a non-rective species (water)
+## NOTE: the order of the directives is irrelevant.
+## Specification about the input data
+what_to_fit        ocf         # The input data corresponds to an Orientational Correlation Function (OCF) of water computed from 0 to 30 ps.
+reactive_species  .False.      # Definition of OCF above requires instructing the code if the monitored species is reactive or not.
+species_name       H2O         # This is a string needed to label the species (water in this case)
+filename           OCF_30ps    # Name of the file that contains the data
+
+### Settings to instruct how data will be fitted
+fitting_function  1exp_to_constant  # This instructs the code to use a single exponential decay to a constant value. See notes for other possible options.
+max_iterations 200                  # Number of maximum iterations for fitting
+
+time_column_number  3               # Column number of the input file that reports time 
+avg_column_number   1               # Column number of the input file that reports average values  
+std_column_number   2               # Column number of the input file that reports STD values. If std_samples is equal to 1, this directive is neglected
+
+std_samples  11                     # Number of departures from the average values (AVG), starting from AVG-(max_times_std)*STD 
+                                    # and generating 11 profiles up to AVG+(max_times_std)*STD, including the AVG values. 
+                                    # By default, the set of raw data is printed to the RAW_DATA file. If this value is 1, only AVG is fitted 
+                                    # (max_times_std is ignored)
+                                     
+max_times_std  1.0                  # Maximum times the STD values (see above)
+
+#start_time  0.20 ps                 # Data above 0.2 ps is considered. If not defined, the lowest recorded time is considered
+end_time   10.00 ps                 # Data above 10.0 ps is considered. If not defined, the largest recorded time is considered   
+
+
+## Optional
+###########
+print_average_ssr  .True.           # Optional directive to check the average SSR/NDF (See generated OUTPUT file)
+
+##&input_parameters                   # The software was designed to define robust initial parameters for fitting based on the option of "what_to_fit" and
+## A1 0.9                             # "fitting_function". Nevertheless, for cases where fittings fail to converge, the user can initialise the parameters. 
+## A2 0.3                             # Depending on the option for "fitting_function" extra parameters need to be defined.
+## T2 2.0
+##&end_input_parameters
+
+fit_superfast_time  .True.         # By setting it to true, this directive is convenient for fitting the OCF response at very short times. 
+                                   # To this purpose, it is recommended to include the data for the lowest recorded times in the fitting, either by
+                                   # setting "start_time" to the lowest recorded time or simply by commenting the "start_time" line.
+
+plot_RAW_data     .True.            # Set to .False. to turn off the printing of the RAW_DATA file    (.True. by default)
+plot_fittings     .True.            # Set to .False. to turn off the printing of the FITTED_DATA file (.True. by default)

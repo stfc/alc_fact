@@ -29,7 +29,7 @@ ALC_FACT contains the following set of files and folders (in italic-bold):
 * [***source***](./source): contains the source code. Files have the *.F90* extension  
 * [***tools***](./tools): shell files for building, compiling and testing the code automatically.  
 * [.gitignore](./.gitignore): instructs Git which files to ignore.  
-* [CMakeList.txt](./CMakeList.txt): sets the framework for code building and testing with CMake. This file must ONLY be modified to add test cases.  
+* [CMakeLists.txt](./CMakeLists.txt): sets the framework for code building and testing with CMake. This file must ONLY be modified to add test cases.  
 * [LICENSE](./LICENSE): BSD 3-Clause License for ALC_FACT.
 * README.md: this file.  
 * [build_code.md](./build_code.md): steps to build, compile and run tests using the CMake platform.    
@@ -38,7 +38,7 @@ ALC_FACT contains the following set of files and folders (in italic-bold):
 ## Dependencies
 The user must have access to the following software (locally):
 
-* GNU-Fortran (11.4.0) or Intel-Fortran (ifx 2023.1.0)
+* GNU-Fortran (11.2.0) or Intel-Fortran (ifx 2023.1.0)
 * Gnuplot (5.4)
 * Cmake (3.16)
 * Make (4.2.1)
